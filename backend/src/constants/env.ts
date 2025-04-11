@@ -1,6 +1,7 @@
 // Add this at the top of env.ts
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' }); // Adjust path based on your folder structure
+import path from 'node:path';
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 const getEnv = (key: string, defaultValue?: string): string => {
   const value = process.env[key] || defaultValue;
 
@@ -19,3 +20,4 @@ export const JWT_SECRET = getEnv("JWT_SECRET");
 export const JWT_REFRESH_SECRET = getEnv("JWT_REFRESH_SECRET");
 export const EMAIL_SENDER = getEnv("EMAIL_SENDER");
 export const RESEND_API_KEY = getEnv("RESEND_API_KEY");
+export const GOOGLE_FACT_CHECK_API_KEY = getEnv("GOOGLE_FACT_CHECK_API_KEY");
