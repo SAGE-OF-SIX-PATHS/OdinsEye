@@ -14,6 +14,7 @@ interface JWTPayload {
 
 const authenticate: RequestHandler = (req, res, next) => {
   const accessToken = req.cookies.accessToken as string | undefined;
+
   appAssert(
     accessToken,
     UNAUTHORIZED,
@@ -34,10 +35,13 @@ const authenticate: RequestHandler = (req, res, next) => {
     AppErrorCode.InvalidAccessToken
   );
 
-  // These are now properly typed
-  req.userId = payload.userId;
-  req.sessionId = payload.sessionId;
-  
+  // Safely assign payload properties if payload is present
+  if (payload) {
+    // Type assertion ensures TypeScript recognizes extended fields
+    (req as typeof req & { userId: string; sessionId: string }).userId = payload.userId;
+    (req as typeof req & { userId: string; sessionId: string }).sessionId = payload.sessionId;
+  }
+
   next();
 };
 
