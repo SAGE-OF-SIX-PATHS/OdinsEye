@@ -1,4 +1,5 @@
-import { Response, ErrorRequestHandler } from "express";
+// import { Response, ErrorRequestHandler, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 import { z } from "zod";
 import AppError from "../utils/AppError";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/http";
@@ -23,22 +24,25 @@ const handleAppError = (res: Response, error: AppError) => {
   });
 };
 
-const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  console.log(`PATH ${req.path}`, error);
+const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(`PATH ${req.originalUrl}`, error);  // Use originalUrl
 
-  if (req.path === REFRESH_PATH) {
+  if (req.originalUrl === REFRESH_PATH) {
     clearAuthCookies(res);
   }
 
   if (error instanceof z.ZodError) {
-    return handleZodError(res, error);
+    handleZodError(res, error);
+    return;
   }
 
   if (error instanceof AppError) {
-    return handleAppError(res, error);
+    handleAppError(res, error);
+    return;
   }
 
-  return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+  res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
 };
 
 export default errorHandler;
+
