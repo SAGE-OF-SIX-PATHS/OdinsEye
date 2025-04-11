@@ -44,7 +44,7 @@ app.use("/api", factCheckRoutes);
 // error handler
 app.use(errorHandler);
 
-app.listen(PORT, async () => {
+app.listen(process.env.PORT || PORT, async () => {
   console.log(`Server listening on port ${PORT} in ${NODE_ENV} environment`);
   await connectToDatabase();
 });
