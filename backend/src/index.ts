@@ -39,16 +39,24 @@ app.get("/", (_req: Request, res: Response) => {
 
 // auth routes
 app.use("/auth", authRoutes);
+app.use(errorHandler);
+
 
 // protected routes
 app.use("/user", authenticate, userRoutes);
+app.use(errorHandler);
+
 app.use("/sessions", authenticate, sessionRoutes);
+app.use(errorHandler);
+
 
 // fact check routes (no auth based on your old setup, but can add authenticate if needed)
 app.use("/fact-check", factCheckRoutes);
+app.use(errorHandler);
+
 
 // error handler
-app.use(errorHandler);
+// app.use(errorHandler);
 
 app.listen(PORT, async () => {
   console.log(`Server listening on port ${PORT} in ${NODE_ENV} environment`);
