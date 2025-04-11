@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express { Application, Request, Response, NextFunction } from "express";
+// import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToDatabase from "./config/db";
@@ -10,7 +10,7 @@ import userRoutes from "./routes/user.route";
 import sessionRoutes from "./routes/session.route";
 import factCheckRoutes from "./routes/factCheck.route"; 
 import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
-// import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 
 const app = express();
 
@@ -26,11 +26,12 @@ app.use(
 app.use(cookieParser());
 
 // health check
-app.get("/", (_, res) => {
+app.get("/", (_: Request, res: Response) => {
   return res.status(200).json({
     status: "healthy",
   });
 });
+
 
 // auth routes
 app.use("/auth", authRoutes);
