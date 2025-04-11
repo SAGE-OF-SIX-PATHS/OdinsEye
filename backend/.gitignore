@@ -7,7 +7,6 @@
 
 # Dependency directories
 node_modules/
-dist/
 
 # TypeScript and build files
 *.js
