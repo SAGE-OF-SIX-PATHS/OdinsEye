@@ -8,6 +8,7 @@ import authenticate from "./middleware/authenticate";
 import authRoutes from "./routes/auth.route";
 import userRoutes from "./routes/user.route";
 import sessionRoutes from "./routes/session.route";
+import factCheckRoutes from "./routes/factCheckRoutes";
 import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
 
 const app = express();
@@ -36,6 +37,9 @@ app.use("/auth", authRoutes);
 // protected routes
 app.use("/user", authenticate, userRoutes);
 app.use("/sessions", authenticate, sessionRoutes);
+
+//factCheckRoute
+app.use("/api", factCheckRoutes);
 
 // error handler
 app.use(errorHandler);
