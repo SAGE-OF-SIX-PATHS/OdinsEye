@@ -2,6 +2,9 @@
 
 ## This is the API for the Personalized User Feature in the API design documentation, It features Register, Login, ....
 
+### this is the deployed link of the Auth API: https://odinseye-1.onrender.com
+
+
 This is a starter template for a MERN stack application using JSON Web Tokens (JWT). The backend is built with [TypeScript](https://www.typescriptlang.org/), [Express](https://expressjs.com), [MongoDB](https://www.mongodb.com) and [Resend](https://resend.com) (for sending emails). 
 Includes:
 
