@@ -7,12 +7,7 @@
 
 # Dependency directories
 node_modules/
-
-# TypeScript and build files
-*.js
-*.js.map
-*.d.ts
-!src/**/*.js  # Keep compiled JS files in src/ (if needed)
+dist/
 
 # Debug logs
 npm-debug.log*
