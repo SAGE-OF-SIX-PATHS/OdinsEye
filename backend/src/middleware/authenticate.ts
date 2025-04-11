@@ -4,7 +4,14 @@ import AppErrorCode from "../constants/appErrorCode";
 import { UNAUTHORIZED } from "../constants/http";
 import { verifyToken } from "../utils/jwt";
 
-// wrap with catchErrors() if you need this to be async
+// Define strict JWT payload type
+interface JWTPayload {
+  userId: string;
+  sessionId: string;
+  iat?: number;
+  exp?: number;
+}
+
 const authenticate: RequestHandler = (req, res, next) => {
   const accessToken = req.cookies.accessToken as string | undefined;
   appAssert(
@@ -14,7 +21,12 @@ const authenticate: RequestHandler = (req, res, next) => {
     AppErrorCode.InvalidAccessToken
   );
 
-  const { error, payload } = verifyToken(accessToken);
+  // Type the verifyToken return value
+  const { error, payload } = verifyToken(accessToken) as {
+    error?: string;
+    payload?: JWTPayload;
+  };
+
   appAssert(
     payload,
     UNAUTHORIZED,
@@ -22,8 +34,10 @@ const authenticate: RequestHandler = (req, res, next) => {
     AppErrorCode.InvalidAccessToken
   );
 
+  // These are now properly typed
   req.userId = payload.userId;
   req.sessionId = payload.sessionId;
+  
   next();
 };
 

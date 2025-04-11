@@ -7,10 +7,11 @@ export interface UserDocument extends mongoose.Document {
   verified: boolean;
   createdAt: Date;
   updatedAt: Date;
+  __v?: number; // Add this line to include version key
   comparePassword(val: string): Promise<boolean>;
-  omitPassword(): Pick<
+  omitPassword(): Omit<
     UserDocument,
-    "_id" | "email" | "verified" | "createdAt" | "updatedAt" | "__v"
+    "password" | "comparePassword" | "omitPassword"
   >;
 }
 
@@ -22,6 +23,7 @@ const userSchema = new mongoose.Schema<UserDocument>(
   },
   {
     timestamps: true,
+    versionKey: "__v" // Explicit version key configuration
   }
 );
 
@@ -29,7 +31,6 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
-
   this.password = await hashValue(this.password);
   return next();
 });
@@ -41,6 +42,8 @@ userSchema.methods.comparePassword = async function (val: string) {
 userSchema.methods.omitPassword = function () {
   const user = this.toObject();
   delete user.password;
+  delete user.comparePassword;
+  delete user.omitPassword;
   return user;
 };
 
