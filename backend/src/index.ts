@@ -54,9 +54,9 @@ app.use(errorHandler);
 app.use("/fact-check", factCheckRoutes);
 app.use(errorHandler);
 
-
+app.use(express.static('public'));
 // error handler
-// app.use(errorHandler);
+app.use(errorHandler);
 
 app.listen(PORT, async () => {
   console.log(`Server listening on port ${PORT} in ${NODE_ENV} environment`);
