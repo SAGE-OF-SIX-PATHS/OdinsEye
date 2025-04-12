@@ -1,20 +1,17 @@
+// FormInput.tsx
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Imageupload from "../assets/img/imageupload.svg"; // adjust path if needed
-
 import "./FormInput.css";
 
-interface FormInputProps {
-  onSubmit: (text: string, file?: File) => void;
-}
-
-const FormInput: React.FC<FormInputProps> = ({ onSubmit }) => {
+const FormInput: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isComposing, setIsComposing] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const navigate = useNavigate();
 
-  // Auto-resize the textarea as content is typed
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -22,7 +19,6 @@ const FormInput: React.FC<FormInputProps> = ({ onSubmit }) => {
     }
   }, [inputText]);
 
-  // Focus the textarea when component mounts
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -33,7 +29,6 @@ const FormInput: React.FC<FormInputProps> = ({ onSubmit }) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      // Only accept image files
       if (!file.type.startsWith("image/")) {
         alert("Please select an image file");
         return;
@@ -41,7 +36,6 @@ const FormInput: React.FC<FormInputProps> = ({ onSubmit }) => {
 
       setSelectedFile(file);
 
-      // Create image preview
       const reader = new FileReader();
       reader.onload = () => {
         setImagePreview(reader.result as string);
@@ -55,28 +49,37 @@ const FormInput: React.FC<FormInputProps> = ({ onSubmit }) => {
     setImagePreview(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (inputText.trim() || selectedFile) {
-      onSubmit(inputText, selectedFile || undefined);
-      setInputText("");
-      clearFileSelection();
+      try {
+        const response = await fetch(
+          `https://odinseye-351h.onrender.com/api/fact-check?query=${encodeURIComponent(
+            inputText
+          )}`
+        );
+        const data = await response.json();
 
-      // Reset height after submission
-      if (textareaRef.current) {
-        textareaRef.current.style.height = "auto";
-      }
+        navigate("/quick-check/result", {
+          state: { result: data, query: inputText },
+        });
 
-      // Re-focus on the textarea after submission
-      setTimeout(() => {
+        setInputText("");
+        clearFileSelection();
+
         if (textareaRef.current) {
-          textareaRef.current.focus();
+          textareaRef.current.style.height = "auto";
         }
-      }, 0);
+
+        setTimeout(() => {
+          if (textareaRef.current) textareaRef.current.focus();
+        }, 0);
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Submit on Enter without Shift key
     if (e.key === "Enter" && !e.shiftKey && !isComposing) {
       e.preventDefault();
       handleSubmit();

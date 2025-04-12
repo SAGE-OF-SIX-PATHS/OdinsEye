@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/img/trustchecklogo.svg"; // adjust path if needed
+import Logo from "../assets/img/trustchecklogo.svg"; // adjust if needed
 
 import "./Auth.css";
 
@@ -11,45 +11,78 @@ interface SignupProps {
 const Signup: React.FC<SignupProps> = ({ onSignup }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    agreeTerms: false,
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
-    // Simple validation
-    if (!formData.fullName || !formData.email || !formData.password) {
-      setError("Please fill in all required fields");
+    // Frontend validation
+    if (!formData.email || !formData.password || !formData.confirmPassword) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (formData.password.length < 6 || formData.confirmPassword.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
 
-    if (!formData.agreeTerms) {
-      setError("You must agree to the Terms of Service");
-      return;
-    }
+    try {
+      setLoading(true);
 
-    // In a real app, you would make an API call here
-    // For now, we'll just simulate a successful signup
-    onSignup();
-    navigate("/dashboard");
+      const response = await fetch(
+        "https://odinseye-351h.onrender.com/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (Array.isArray(data) && data[0]?.message) {
+          // Handle multiple validation messages
+          setError(data.map((err: any) => err.message).join(" | "));
+        } else {
+          setError(data.message || "Signup failed.");
+        }
+        return;
+      }
+
+      onSignup();
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,18 +98,6 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Enter your full name"
-            />
-          </div>
-
-          <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
@@ -85,6 +106,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
+              required
             />
           </div>
 
@@ -97,6 +119,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Create a password"
+              required
             />
           </div>
 
@@ -109,28 +132,16 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Confirm your password"
+              required
             />
           </div>
 
-          <div className="form-group checkbox-group">
-            <input
-              type="checkbox"
-              id="agreeTerms"
-              name="agreeTerms"
-              checked={formData.agreeTerms}
-              onChange={handleChange}
-            />
-            <label htmlFor="agreeTerms">
-              I agree to the <a href="#">Terms of Service</a> and{" "}
-              <a href="#">Privacy Policy</a>
-            </label>
-          </div>
-
-          <button type="submit" className="auth-button">
-            Sign Up
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
-        <Link to={"/login"} className="signup-link">
+
+        <Link to="/login" className="signup-link">
           Login
         </Link>
       </div>
