@@ -19,21 +19,30 @@
 
     <script>
         async function checkFact() {
-            const claim = document.getElementById('claim').value;
+            const claim = document.getElementById('claimInput').value;
 
-            const response = await fetch('/api/fact-check/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    claim
-                })
-            });
+            try {
+                const response = await fetch('/api/fact-check', { // <== NO trailing slash
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        claim
+                    })
+                });
 
+                const data = await response.json();
 
-            const data = await res.json();
-            document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                document.getElementById('result').innerHTML = `
+      <p><strong>Claim:</strong> ${data.claim}</p>
+      <p><strong>Rating:</strong> ${data.rating}</p>
+      <p><strong>Source:</strong> <a href="${data.url}" target="_blank">${data.url}</a></p>
+    `;
+
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color:red;">Error checking fact. Try again.</p>';
+            }
         }
     </script>
 </body>
