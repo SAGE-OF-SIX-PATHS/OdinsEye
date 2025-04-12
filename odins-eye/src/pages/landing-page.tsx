@@ -2,8 +2,41 @@ import React, { useEffect, useState } from "react";
 import '../styles/landingpage.css';
 import Globe from "../assets/global.png";
 import logo from "../assets/logo.png";
-import arrow from "../assets/drop down.png"
+import arrow from "../assets/drop down.png";
 import DashboardPreview from "../assets/dashboard preivew.png";
+import GoogleTranslateProvider from "../providers/GoogleTranslateProvider";
+
+
+interface GoogleTranslateInlineLayout {
+  HORIZONTAL: number;
+  VERTICAL: number;
+  SIMPLE: number;
+}
+
+interface GoogleTranslateElement {
+  new (options: GoogleTranslateOptions, elementId: string): void;
+  InlineLayout?: GoogleTranslateInlineLayout;
+}
+
+interface GoogleTranslate {
+  translate?: {
+    TranslateElement?: GoogleTranslateElement;
+  };
+}
+
+interface GoogleTranslateOptions {
+  pageLanguage: string;
+  includedLanguages: string;
+  layout?: number;
+  autoDisplay?: boolean;
+}
+
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: GoogleTranslate;
+  }
+}
 
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState("home");
@@ -41,6 +74,8 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page">
+      <GoogleTranslateProvider />
+
       {/* Navbar */}
       <nav className="navbar">
         <img src={logo} alt="TruthCheck Logo" className="logo" />
@@ -69,7 +104,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="hero-section">
+      <section id="home" className="hero-section" >
         <h1 className="hero-title">
           Empowering Nigerians <br /> with the Truth
         </h1>
@@ -88,7 +123,7 @@ export default function LandingPage() {
 
       {/* Dashboard Preview Image */}
       <section className="dashboard-preview">
-        <img src={DashboardPreview} alt="Dashboard Preview" /> {/* Use imported image */}
+        <img src={DashboardPreview} alt="Dashboard Preview" />
       </section>
     </div>
   );
