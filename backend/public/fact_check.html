@@ -21,7 +21,7 @@
         async function checkFact() {
             const claim = document.getElementById('claim').value;
 
-            const res = await fetch('http://localhost:3000/api/fact-check', {
+            const response = await fetch('/api/fact-check/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,6 +30,7 @@
                     claim
                 })
             });
+
 
             const data = await res.json();
             document.getElementById('result').innerText = JSON.stringify(data, null, 2);
