@@ -1,6 +1,3 @@
-Here's a professional README.md file for your project with centered title and proper markdown formatting:
-
-```markdown
 <h1 align="center">A Quick Check System That Validates Claims</h1>
 
 <p align="center">
