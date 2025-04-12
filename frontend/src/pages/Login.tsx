@@ -1,7 +1,7 @@
-// components/Login.tsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
+import Logo from "../assets/img/trustchecklogo.svg"; // adjust path if needed
 
 interface LoginProps {
   onLogin: () => void;
@@ -15,6 +15,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     rememberMe: false,
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -24,25 +25,52 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple validation
+    setError("");
+
     if (!formData.email || !formData.password) {
       setError("Please fill in all fields");
       return;
     }
 
-    // In a real app, you would make an API call here
-    // For now, we'll just simulate a successful login
-    onLogin();
-    navigate("/dashboard");
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://odinseye-xoxj.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // include cookies/session
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.message === "Login successful") {
+        onLogin(); // Update auth state
+        navigate("/dashboard");
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-container">
       <div className="auth-logo">
-        <i className="logo-icon">✓</i>
-        <span>TruthCheck</span>
+        <img src={Logo} alt="logo" />
       </div>
 
       <div className="auth-card">
@@ -60,6 +88,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
+              required
             />
           </div>
 
@@ -72,6 +101,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
+              required
             />
           </div>
 
@@ -91,23 +121,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </a>
           </div>
 
-          <button type="submit" className="auth-button">
-            Log In
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
-        <div className="auth-divider">
-          <span>OR</span>
-        </div>
-
-        <button className="social-button google">
-          <span className="social-icon">G</span>
-          Continue with Google
-        </button>
-
-        <div className="auth-redirect">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
-        </div>
+        <Link to={"/signup"} className="signup-link">
+          Sign up
+        </Link>
       </div>
     </div>
   );

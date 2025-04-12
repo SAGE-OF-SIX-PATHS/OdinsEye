@@ -36,7 +36,7 @@ const GoogleTranslateProvider = () => {
         bottom: 10,
         right: 10,
         zIndex: 9999,
-        background: "black", // u fit change color here or remove em totally
+        background: "#3c0c8c", // u fit change color here or remove em totally
         padding: 8,
         borderRadius: "4px",
       }}

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logo from "../assets/img/trustchecklogo.svg"; // adjust path if needed
+
 import "./Auth.css";
 
 interface SignupProps {
@@ -53,8 +55,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
   return (
     <div className="auth-container">
       <div className="auth-logo">
-        <i className="logo-icon">✓</i>
-        <span>TruthCheck</span>
+        <img src={Logo} alt="logo" />
       </div>
 
       <div className="auth-card">
@@ -129,19 +130,9 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             Sign Up
           </button>
         </form>
-
-        <div className="auth-divider">
-          <span>OR</span>
-        </div>
-
-        <button className="social-button google">
-          <span className="social-icon">G</span>
-          Continue with Google
-        </button>
-
-        <div className="auth-redirect">
-          Already have an account? <Link to="/login">Log In</Link>
-        </div>
+        <Link to={"/login"} className="signup-link">
+          Login
+        </Link>
       </div>
     </div>
   );
