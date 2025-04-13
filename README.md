@@ -1,3 +1,6 @@
+Here’s the updated README with a note specifying that the truth checker currently works only in the user dashboard, and the landing page support will be added in future improvements:
+
+```markdown
 <h1 align="center">A Quick Check System That Validates Claims</h1>
 
 <p align="center">
@@ -7,54 +10,60 @@
 ## 📌 Overview
 OdinsEye is a truth verification system designed to help Nigerians validate the authenticity of circulating information. The platform serves multiple stakeholders including citizens, government agencies, media organizations, and tech developers in combating misinformation across Nigeria's diverse linguistic landscape.
 
+> ⚠️ **Note:** The truth-checker currently works only within the user dashboard. Integration into the landing page will be implemented as part of future improvements.
+
 ## 🌟 Key Features
-- **Multilingual Fact-Checking**: Supports English, Igbo, Hausa, and Yoruba
-- **Claim Validation**: Automated verification of circulating information
-- **Stakeholder Dashboards**: Custom views for different user types
-- **Source Reliability Scoring**: Rates credibility of information sources
-- **Cultural Context Analysis**: Considers regional and linguistic nuances
+- **Multilingual Fact-Checking**: Supports English, Igbo, Hausa, and Yoruba  
+- **Claim Validation**: Automated verification of circulating information  
+- **Stakeholder Dashboards**: Custom views for different user types  
+- **Source Reliability Scoring**: Rates credibility of information sources  
+- **Cultural Context Analysis**: Considers regional and linguistic nuances  
 
 ## 🛠️ Technology Stack
+
 ### Frontend
-- React with TypeScript
-- Multilingual UI Components
-- Responsive Design Framework
+- React with TypeScript  
+- Multilingual UI Components  
+- Responsive Design Framework  
 
 ### Backend
-- Node.js with Express and TypeScript
-- MongoDB Database
-- Translation API Integration
-- Authentication System
+- Node.js with Express and TypeScript  
+- MongoDB Database  
+- Translation API Integration  
+- Authentication System  
 
 ### Additional Services
-- Google Translate API (for multilingual support)
-- Helmet.js (Security)
-- Winston (Logging)
+- Google Translate API (for multilingual support)  
+- Helmet.js (Security)  
+- Winston (Logging)  
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16+)
-- MongoDB Atlas account or local MongoDB instance
-- Google Cloud API key (for translation services)
+- Node.js (v16+)  
+- MongoDB Atlas account or local MongoDB instance  
+- Google Cloud API key (for translation services)  
 
 ### Installation
-1. Clone the repository
+1. Clone the repository  
    ```bash
    git clone https://github.com/your-repo/odinseye.git
    ```
-2. Install dependencies
+
+2. Install dependencies  
    ```bash
    cd odinseye
    npm install
    cd frontend
    npm install
    ```
-3. Set up environment variables
+
+3. Set up environment variables  
    ```bash
    cp .env.example .env
    ```
-4. Start development servers
+
+4. Start development servers  
    ```bash
    # Backend
    npm run dev
@@ -90,7 +99,7 @@ We welcome contributions from developers passionate about combating misinformati
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-- Nigerian fact-checking organizations
-- Google Translate API team
+- Nigerian fact-checking organizations  
+- Google Translate API team  
 - Open-source community contributors
 ```
