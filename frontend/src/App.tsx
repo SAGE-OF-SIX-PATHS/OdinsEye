@@ -11,8 +11,40 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import QuickCheck from "./pages/QuickCheck";
 import Quickcheckresult from "./pages/Quickcheckresult";
+import LandingPage from "./pages/LandingPage";
 import GoogleTranslateProvider from "./providers/GoogleTranslateProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+interface GoogleTranslateInlineLayout {
+  HORIZONTAL: number;
+  VERTICAL: number;
+  SIMPLE: number;
+}
+
+interface GoogleTranslateElement {
+  new (options: GoogleTranslateOptions, elementId: string): void;
+  InlineLayout?: GoogleTranslateInlineLayout;
+}
+
+interface GoogleTranslate {
+  translate?: {
+    TranslateElement?: GoogleTranslateElement;
+  };
+}
+
+interface GoogleTranslateOptions {
+  pageLanguage: string;
+  includedLanguages: string;
+  layout?: number;
+  autoDisplay?: boolean;
+}
+
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: GoogleTranslate;
+  }
+}
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -26,7 +58,7 @@ const App: React.FC = () => {
         {isAuthenticated && <Sidebar onLogout={logout} />}
         <div className={`content-area ${!isAuthenticated ? "full-width" : ""}`}>
           <Routes>
-            <Route path="/" element={<Login onLogin={login} />} />
+            <Route path="/" element={<LandingPage/>} />
             <Route path="/login" element={<Login onLogin={login} />} />
             <Route path="/signup" element={<Signup onSignup={login} />} />
             <Route path="/quick-check/result" element={<Quickcheckresult />} />
