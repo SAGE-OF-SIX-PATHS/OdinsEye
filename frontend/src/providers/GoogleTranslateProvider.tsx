@@ -16,13 +16,18 @@ const GoogleTranslateProvider = () => {
       window.googleTranslateElementInit = () => {
         new window.google.translate.TranslateElement(
           {
-            pageLanguage: "en",
-            includedLanguages: "en,ig,yo,ha",
-            layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+            pageLanguage: "en", // Default language
+            includedLanguages: "en,ig,yo,ha", // Allowed translations
+            autoDisplay: false,
+            layout: (window as any).google.translate.TranslateElement.InlineLayout.VERTICAL,
           },
           "google_translate_element"
         );
       };
+
+      // Remove previously saved Google Translate cookies to avoid auto-redirect
+      document.cookie = "googtrans=/en/en;path=/";
+      document.cookie = "googtrans=/en/en"; // Always default to English on load
     };
 
     addGoogleTranslateScript();
@@ -36,7 +41,7 @@ const GoogleTranslateProvider = () => {
         bottom: 10,
         right: 10,
         zIndex: 9999,
-        background: "#3c0c8c", // u fit change color here or remove em totally
+        background: "#3c0c8c",
         padding: 8,
         borderRadius: "4px",
       }}

@@ -1,14 +1,12 @@
 // App.tsx
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
-import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import QuickCheck from "./pages/QuickCheck";
@@ -31,6 +29,9 @@ const App: React.FC = () => {
             <Route path="/" element={<Login onLogin={login} />} />
             <Route path="/login" element={<Login onLogin={login} />} />
             <Route path="/signup" element={<Signup onSignup={login} />} />
+            <Route path="/quick-check/result" element={<Quickcheckresult />} />
+
+
             <Route
               path="/dashboard"
               element={
@@ -47,14 +48,7 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/quick-check/result"
-              element={
-                <ProtectedRoute isAuthenticated={isAuthenticated}>
-                  <Quickcheckresult />
-                </ProtectedRoute>
-              }
-            />
+           
           </Routes>
         </div>
       </div>

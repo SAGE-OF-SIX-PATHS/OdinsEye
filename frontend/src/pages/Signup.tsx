@@ -50,7 +50,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
       setLoading(true);
 
       const response = await fetch(
-        "https://odinseye-351h.onrender.com/auth/register",
+        "http://localhost:3000/auth/register",
         {
           method: "POST",
           headers: {

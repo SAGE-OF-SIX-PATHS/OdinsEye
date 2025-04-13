@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
-import Logo from "../assets/img/trustchecklogo.svg";
+import Logo from "../assets/img/trustchecklogo.svg"; // adjust path if needed
 
 interface LoginProps {
   onLogin: () => void;
@@ -34,21 +34,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long");
-      return;
-    }
-
     setLoading(true);
 
     try {
       const response = await fetch(
-        "https://odinseye-351h.onrender.com/auth/login",
+        "http://localhost:3000/auth/login",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include", // include cookies/session
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -59,14 +55,30 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       const data = await response.json();
 
       if (response.ok && data.message === "Login successful") {
-        onLogin(); // triggers isAuthenticated state in App.tsx
+        onLogin();
         navigate("/dashboard");
       } else {
+        console.error("Login failed:", {
+          status: response.status,
+          data,
+        });
         setError(data.message || "Login failed");
       }
-    } catch (err) {
+      
+    } catch (err: any) {
+      console.error("Login error:", err);
+    
+      // If error has a response, it might be a FetchError or similar
+      if (err.response) {
+        console.error("Status:", err.response.status);
+        err.response.json().then((json: any) => {
+          console.error("Response JSON:", json);
+        });
+      }
+    
       setError("Something went wrong. Please try again.");
-    } finally {
+    }
+     finally {
       setLoading(false);
     }
   };
@@ -74,8 +86,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <div className="auth-container">
       <div className="auth-logo">
-        <img src={Logo} alt="TruthCheck Logo" />
+        <img src={Logo} alt="logo" />
       </div>
+
       <div className="auth-card">
         <h2>Log In</h2>
 
@@ -129,7 +142,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </button>
         </form>
 
-        <Link to="/signup" className="signup-link">
+        <Link to={"/signup"} className="signup-link">
           Sign up
         </Link>
       </div>
