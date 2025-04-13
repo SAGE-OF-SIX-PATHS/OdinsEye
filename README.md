@@ -1,7 +1,7 @@
 <h1 align="center">A Quick Check System That Validates Claims</h1>
 
 <p align="center">
-  <strong>OdinsEye - Nigerian Information Verification Platform</strong>
+  <strong>Nigerian Information Verification Platform</strong>
 </p>
 
 ## 📌 Overview
@@ -41,18 +41,18 @@ OdinsEye is a truth verification system designed to help Nigerians validate the 
 ### Installation
 1. Clone the repository
    ```bash
-   git clone https://github.com/your-repo/odinseye.git
+   git clone https://github.com/SAGE-OF-SIX-PATHS/Truth-Check-Sytem.git
    ```
 2. Install dependencies
    ```bash
-   cd odinseye
+   cd Truth-Check-System
    npm install
    cd frontend
    npm install
    ```
 3. Set up environment variables
    ```bash
-   cp .env.example .env
+   .env
    ```
 4. Start development servers
    ```bash
@@ -66,7 +66,7 @@ OdinsEye is a truth verification system designed to help Nigerians validate the 
 
 ## 📂 Project Structure
 ```
-odinseye/
+Truth-Check-System/
 ├── backend/            # TS-Node Express server
 │   ├── src/
 │   │   ├── config/     # Database and service configs
@@ -85,6 +85,29 @@ odinseye/
 
 ## 🤝 Contributing
 We welcome contributions from developers passionate about combating misinformation. Please read our [Contribution Guidelines](CONTRIBUTING.md) before submitting pull requests.
+These are the Active Contributors to the Web2 version of the Project:
+Web2 team
+FRONTEND DEVS
+1.Chioma ugbam
+2.Nnayamah joseph
+
+BACKEND DEVS
+1.Akpamgbo Nzubechukwu Philip
+2.Ozioma Egole
+3.Chibuikem Jonnwakalo
+
+
+PRODUCT DESIGNERS
+1.Chineye onwuzulike
+2.chinyere okeke
+3.ekeoma madu
+4.odudu ukpanah
+
+DATA ANALYSIS
+1.Valerie Matta
+
+QUALITY ASSURANCE 
+Peace chinecherem
 
 ## 📜 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
