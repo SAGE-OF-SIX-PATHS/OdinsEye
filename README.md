@@ -2,6 +2,7 @@
 
 <p align="center">
   <strong>Nigerian Information Verification Platform</strong>
+  <a>deployed URL: https://truth-check-system.vercel.app/</a>
 </p>
 
 ## 📌 Overview
