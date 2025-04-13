@@ -50,7 +50,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:3000/auth/register",
+        "https://truth-check-sytem.onrender.com/auth/register",
         {
           method: "POST",
           headers: {
