@@ -94,15 +94,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Google Translate API team
 - Open-source community contributors
 ```
-
-This README includes:
-1. Centered title as requested
-2. Clear project description
-3. Technology stack details
-4. Installation instructions
-5. Project structure overview
-6. Contribution guidelines placeholder
-7. License information
-8. Professional formatting throughout
-
-You can customize any section further to match your project's specific requirements. The markdown formatting ensures it will display properly on GitHub and other platforms.
