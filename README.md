@@ -1,6 +1,3 @@
-Here’s the updated README with a note specifying that the truth checker currently works only in the user dashboard, and the landing page support will be added in future improvements:
-
-```markdown
 <h1 align="center">A Quick Check System That Validates Claims</h1>
 
 <p align="center">
