@@ -1,7 +1,7 @@
 <h1 align="center">A Quick Check System That Validates Claims</h1>
 
 <p align="center">
-  <strong>Nigerian Information Verification Platform</strong>
+  <strong>Nigerian Information Verification Platform</strong><br>
   <a>deployed URL: https://truth-check-system.vercel.app/</a>
 </p>
 
